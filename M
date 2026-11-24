@@ -1,4 +1,3 @@
--- FORCE MOBILE UI DETECTION
 
 local UserInputService = game:GetService("UserInputService")
 
