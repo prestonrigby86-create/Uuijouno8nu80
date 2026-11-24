@@ -1,4 +1,16 @@
+-- FORCE MOBILE UI DETECTION
 
+local UserInputService = game:GetService("UserInputService")
+
+local IS_MOBILE = UserInputService.TouchEnabled
+
+if IS_MOBILE then
+    if getgenv then
+        getgenv().MobileMode = true
+        getgenv().IsMobile = true
+        getgenv().ForceMobileUI = true
+    end
+end
 local accent, removePin, rebuildQuick, highlight, coreGui, userInputService, tweenService, httpService, players, virtualUser, textService, guiService, logService, starterGui, runService, soundService, env, running, connections, extraCleanup, track, onCleanup, new, corner, padding, ICON_PATH, ICON_FONT, sans, MONO, C, hasFS, esc, ROOT, FOLDER, MUSIC_DIR, QUICK_SCRIPTS_THUMBS, THUMBS_DIR, fsJoin, fsParent, fsExt, fsStripExt, fsIsDir, fsIsFile, fsRead, fsWrite, fsEnsure, fsParallel, fsList, fsDeleteTree, fsCopyFile, fsCopyTree, fsUnique, fsEnsureStorage, fsMigrateStorage, defaults, accents, settings, saveSettings, bind, setSetting, applyAllSettings, lighten, iconFont, newIcon, iconBtn, UI, accentTargets
 ;(function()
 coreGui = game:GetService("CoreGui")
