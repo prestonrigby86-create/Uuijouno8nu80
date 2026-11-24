@@ -1,72 +1,4 @@
 
---[[
-    UNIVERSAL MOBILE UI COMPATIBILITY PATCH
-    Android / Delta
-]]
-
-local Players = game:GetService("Players")
-local UIS = game:GetService("UserInputService")
-local GuiService = game:GetService("GuiService")
-
-local Player = Players.LocalPlayer
-
-if Player and UIS.TouchEnabled then
-    local PlayerGui = Player:WaitForChild("PlayerGui")
-
-    local function ApplyMobileFix(Gui)
-        if not Gui:IsA("ScreenGui") then
-            return
-        end
-
-        -- Respect Roblox's safe area
-        Gui.IgnoreGuiInset = false
-
-        -- Consistent layering
-        Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-        local Scale = Gui:FindFirstChild("MobileCompatibilityScale")
-
-        if not Scale then
-            Scale = Instance.new("UIScale")
-            Scale.Name = "MobileCompatibilityScale"
-            Scale.Parent = Gui
-        end
-
-        local function UpdateScale()
-            local Camera = workspace.CurrentCamera
-            if not Camera then return end
-
-            local View = Camera.ViewportSize
-            Scale.Scale = math.clamp(
-                math.min(View.X / 844, View.Y / 600),
-                0.65,
-                1
-            )
-        end
-
-        UpdateScale()
-
-        if workspace.CurrentCamera then
-            workspace.CurrentCamera
-                :GetPropertyChangedSignal("ViewportSize")
-                :Connect(UpdateScale)
-        end
-    end
-
-    for _, Gui in ipairs(PlayerGui:GetChildren()) do
-        ApplyMobileFix(Gui)
-    end
-
-    PlayerGui.ChildAdded:Connect(ApplyMobileFix)
-
-    if getgenv then
-        getgenv().UraniumMobileFix = true
-    end
-
-    print("[Mobile Compatibility] Loaded")
-end
-
-
 local accent, removePin, rebuildQuick, highlight, coreGui, userInputService, tweenService, httpService, players, virtualUser, textService, guiService, logService, starterGui, runService, soundService, env, running, connections, extraCleanup, track, onCleanup, new, corner, padding, ICON_PATH, ICON_FONT, sans, MONO, C, hasFS, esc, ROOT, FOLDER, MUSIC_DIR, QUICK_SCRIPTS_THUMBS, THUMBS_DIR, fsJoin, fsParent, fsExt, fsStripExt, fsIsDir, fsIsFile, fsRead, fsWrite, fsEnsure, fsParallel, fsList, fsDeleteTree, fsCopyFile, fsCopyTree, fsUnique, fsEnsureStorage, fsMigrateStorage, defaults, accents, settings, saveSettings, bind, setSetting, applyAllSettings, lighten, iconFont, newIcon, iconBtn, UI, accentTargets
 ;(function()
 coreGui = game:GetService("CoreGui")
@@ -602,7 +534,12 @@ function saveSettings()
 		pcall(function()
 			if not rootEnsured then
 				rootEnsured = fsEnsure(ROOT)
-			end
+			end-- MOBILE MENU POSITION FIX
+if userInputService.TouchEnabled then
+    settings.moveMenu = false
+    settings.rememberPos = false
+    settings.uiScale = math.min(settings.uiScale, 0.85)
+end
 			local out = {}
 			for k, v in pairs(settings) do
 				if string.sub(k, 1, 2) ~= "lp" then
